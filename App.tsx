@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, TouchableOpacity, StyleSheet, FlatList} from 'react-native';
 
 const Timer = () => {
   const [mainTime, setMainTime] = useState(0);
@@ -47,18 +47,40 @@ const Timer = () => {
     setLapTime(0);
   };
 
-const renderLapItem = ({ item, index }) => (
-  <View style={styles.lapItem}>
-    <Text style={[styles.lapIndex, (laps.length - 1 - index) === shortestLapIndex ? styles.shortestLap : (laps.length - 1 - index) === longestLapIndex ? styles.longestLap : null]}>Lap {laps.length - index}:</Text>
-    <Text style={[styles.lapTime, (laps.length - 1 - index) === shortestLapIndex ? styles.shortestLap : (laps.length - 1 - index) === longestLapIndex ? styles.longestLap : null]}>{formatTime(item)}</Text>
-  </View>
-);
+  const renderLapItem = ({item, index}) => (
+    <View style={styles.lapItem}>
+      <Text
+        style={[
+          styles.lapIndex,
+          laps.length - 1 - index === shortestLapIndex
+            ? styles.shortestLap
+            : laps.length - 1 - index === longestLapIndex
+            ? styles.longestLap
+            : null,
+        ]}>
+        Lap {laps.length - index}:
+      </Text>
+      <Text
+        style={[
+          styles.lapTime,
+          laps.length - 1 - index === shortestLapIndex
+            ? styles.shortestLap
+            : laps.length - 1 - index === longestLapIndex
+            ? styles.longestLap
+            : null,
+        ]}>
+        {formatTime(item)}
+      </Text>
+    </View>
+  );
 
-  const formatTime = (timeInMilliseconds) => {
+  const formatTime = timeInMilliseconds => {
     const minutes = Math.floor(timeInMilliseconds / 60000);
     const seconds = Math.floor((timeInMilliseconds % 60000) / 1000);
     const milliseconds = Math.floor((timeInMilliseconds % 1000) / 10);
-    return `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}.${milliseconds < 10 ? '0' : ''}${milliseconds}`;
+    return `${minutes < 10 ? '0' : ''}${minutes}:${
+      seconds < 10 ? '0' : ''
+    }${seconds}.${milliseconds < 10 ? '0' : ''}${milliseconds}`;
   };
 
   useEffect(() => {
@@ -72,8 +94,12 @@ const renderLapItem = ({ item, index }) => (
     let longestIndex = 0;
 
     for (let i = 1; i < laps.length; i++) {
-      if (laps[i] < laps[shortestIndex]) shortestIndex = i;
-      if (laps[i] > laps[longestIndex]) longestIndex = i;
+      if (laps[i] < laps[shortestIndex]) {
+        shortestIndex = i;
+      }
+      if (laps[i] > laps[longestIndex]) {
+        longestIndex = i;
+      }
     }
 
     setShortestLapIndex(shortestIndex);
@@ -84,11 +110,19 @@ const renderLapItem = ({ item, index }) => (
     <View style={styles.container}>
       <View style={styles.topHalf}>
         <Text style={styles.timerText}>{formatTime(mainTime)}</Text>
-         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={[styles.button, styles.lapButton]} onPress={handleLap}>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={[styles.button, styles.lapButton]}
+            onPress={handleLap}>
             <Text style={styles.buttonText}>Lap</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.startStopButton, running ? styles.stopButton : styles.startButton]} onPress={handleToggle}>
+          <TouchableOpacity
+            style={[
+              styles.button,
+              styles.startStopButton,
+              running ? styles.stopButton : styles.startButton,
+            ]}
+            onPress={handleToggle}>
             <Text style={styles.buttonText}>{running ? 'Stop' : 'Start'}</Text>
           </TouchableOpacity>
         </View>
